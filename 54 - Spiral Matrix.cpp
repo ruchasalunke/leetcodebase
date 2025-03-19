@@ -2,50 +2,44 @@ class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) 
     {
+        int n = matrix.size();
+        int m = matrix[0].size();
+        int left = 0;
+        int right = m-1;
+        int bottom = n-1;
+        int top = 0;
+        int direction = 1;
         vector<int> ans;
-        int row = matrix.size();
-        int col = matrix[0].size();
-        int tot = row * col;
-        int count = 0;
-
-        int startRow = 0;
-        int endRow = row - 1;
-        int startCol = 0;
-        int endCol = col - 1;
-
-        while (count < tot) 
+        while(left <= right && top <= bottom)
         {
-            // print first row
-            for (int index = startCol; count < tot && index <= endCol; index++) 
+            if(direction==1)
             {
-                ans.push_back(matrix[startRow][index]);
-                count++;
+                for(int i=left; i<=right; i++)
+                    ans.push_back(matrix[top][i]);
+                direction=2;
+                top++;    
             }
-            startRow++;
-
-            // print last column
-            for (int index = startRow; count < tot && index <= endRow; index++) 
+            else if(direction==2)
             {
-                ans.push_back(matrix[index][endCol]);
-                count++;
+                for(int i=top; i<=bottom; i++)
+                    ans.push_back(matrix[i][right]);
+                direction=3;
+                right--;  
             }
-            endCol--;
-
-            //print last row
-            for(int index = endCol; count < tot && index >= startCol; index--)
+            else if(direction==3)
             {
-                ans.push_back(matrix[endRow][index]);
-                count++;
+                for(int i=right; i>=left; i--)
+                    ans.push_back(matrix[bottom][i]);
+                direction=4;
+                bottom--;    
             }
-            endRow--;
-
-            //print first column
-            for(int index = endRow; count < tot && index >= startRow; index--)
+            else if(direction==4)
             {
-                ans.push_back(matrix[index][startCol]);
-                count++;
+                for(int i=bottom; i>=top; i--)
+                    ans.push_back(matrix[i][left]);
+                direction=1;
+                left++;
             }
-            startCol++;
         }
         return ans;
     }
